@@ -1,0 +1,312 @@
+﻿@model TaoTaoShopping.Models.shopping
+@{
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<meta charset="UTF-8">
+
+<link rel="stylesheet" type="text/css" href="/Content/css/iemt.css" />
+<div class="w1200">
+    <!-- Category Navigation -->
+    <div class="top_nv">
+        <span><a href="/">Home</a></span>
+        <span>></span>
+        <span><a href="/Home/List?cid=@Model.cid">@Model.category.catename</a></span>
+        <span>></span>
+        <span><a href="#">@Model.title</a></span>
+        <style>
+            .btns {
+                -webkit-transition: all 75ms;
+                -o-transition: all 75ms;
+                transition: all 75ms;
+            }
+
+            .btns {
+                font-weight: bold;
+                text-transform: uppercase;
+                background-repeat: no-repeat;
+                background-position: center center;
+                padding: 10px;
+                border: 1px solid #ccc;
+                outline: none;
+                border-radius: 5px;
+                margin: 20px 10px;
+            }
+
+                .btns:hover {
+                    cursor: pointer;
+                }
+
+            .btn-success {
+                color: #fff;
+                background-color: #2ecc71;
+                border-color: #29b765;
+                line-height: 20px;
+            }
+
+            .btn-warning {
+                color: #fff;
+                background-color: #e67e22;
+                border-color: #d67118;
+                line-height: 20px;
+            }
+        </style>
+    </div>
+    <!-- Category Navigation -->
+    <div class="con_content">
+        <!-- Submission Area -->
+        <div class="con_top">
+            <div class="con_top_l">
+                <div class="tab-w">
+                    <div class="divw">
+                        <a href="#">
+                            <span class="zoomPad">
+                                <img src="@Model.img" />
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="con_top_r">
+                <div class="detail_top">
+                    <h1 class="detail_tit">@Model.title</h1>
+                    <div class="price_wrap">
+                        <div class="detail_price">
+                            <span class="price_now" style="color:red;">
+                                <b class="em_sign">$</b>
+                                @Model.sale_price
+                            </span>
+                            <span class="price_now" style="font-size:14px;">
+                                Original Price: <b class="em_sign">$</b>
+                                <del>@Model.price</del>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="detail_freight">
+                        Stock: <span id="nums">@Model.number</span>
+                    </div>
+                    <div class="detail_freight">
+                        <span class="pop_tit">Shipping:Free</span>
+                        <span id="freight" class="pop_black"></span>
+                        &nbsp;&nbsp;
+                        @*Item Number: @Model.shop_number*@
+                    </div>
+                    <input type="button" id="dec" name="name" class="btns" value="-" />
+                    <input type="number" name="number" id="number" style="width:50px;height:40px;font-size:16px;" value="1" />
+                    <input type="button" id="add" name="name" class="btns" value="+" />
+                    <br />
+                    <input type="button" name="name" id="buyCar" class="btns btn-warning" value="Add to Cart" />
+                    <input type="button" name="name" id="buy" class="btns btn-success" value="Buy" />
+
+                    <script>
+                        // Buy button click event
+                        $("#buy").click(function () {
+                            // 1. Check if the user is logged in
+                            var isLogin = "@(Session["user_id"] != null ? Session["user_id"].ToString() : "0")";
+                            if (isLogin == "0") {
+                                alert("Please login first!");
+                                window.location.href = "/Home/Login";
+                                return;
+                            }
+                            // 2. Check if the quantity to buy is valid
+                            var num = $("#number").val();
+                            var nums = $("#nums").val();
+                            if (parseInt(num) > parseInt(nums)) {
+                                alert("The quantity exceeds available stock!");
+                                return;
+                            }
+                            window.location.href = "/Home/Pay2?shopid=" + @Model.id + "&shopNum=" + num;
+                        });
+
+                        // Add to cart button click event
+                        $("#buyCar").click(function () {
+                            var isLogin = "@(Session["user_id"] != null ? Session["user_id"].ToString() : "0")";
+                            if (isLogin == "0") {
+                                alert("Please login first!");
+                                window.location.href = "/Home/Login";
+                                return;
+                            }
+                            // If logged in, add to cart
+                            $.ajax({
+                                url: "/Home/addCar",
+                                type: "post",
+                                data: {
+                                    shopId: "@Model.id",
+                                    shopNum: $("#number").val(),
+                                },
+                                success: function (res) {
+                                    if (res == "200") {
+                                        alert("Added to cart successfully!");
+                                    } else {
+                                        alert("Failed to add to cart!")
+                                    }
+                                },
+                                error: function (res) {
+                                    alert("Request failed, could not add to cart!")
+                                },
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <!-- Submission Area end -->
+        <!-- Display Area -->
+        <div class="con_tab">
+            <div class="con_nav">
+                <div class="con_nav_c">
+                    <div class="w1200">
+                        <ul id="chocieBox">
+                            <li class="on" onclick="choice(this, 1)"><a href="javascript:;">Product Details</a></li>
+                            <li onclick="choice(this, 2)"><a href="javascript:;">User Reviews</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="display">
+            <div class="goods_box">
+                <div class="detail_lists">
+                    <div class="d_h2">
+                        <h2>Product Details</h2>
+                    </div>
+                    <div class="detail_con">
+                        <div style="margin: auto;">
+                            @(new HtmlString(Model.detail))
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="appraise_box" style="display:none;">
+                <div class="detail_lists">
+                    <div class="d_h2">
+                        <h2>User Reviews</h2>
+                    </div>
+                    <div class="detail_l_con3">
+                        @if (Session["user_id"] != null)
+                        {
+                            <div align="center">
+                                <textarea style="width:90%;height:50px;" id="content" placeholder="Enter your review!"></textarea>
+                                <br />
+                                <input type="button" onclick="sub()" class="btn-success btns" value="Submit Review" />
+                            </div>
+                        }
+                        else
+                        {
+                            <h1 align="center">Login to review</h1>
+                        }
+                        <hr />
+                        <div class="appraise_h2">
+                            <div class="appraise_t1">Review Content</div>
+                            <div class="appraise_t4">User Info</div>
+                        </div>
+                        <ul>
+                            @foreach (var item in ViewBag.list)
+                            {
+                                <li class="appraise_li">
+                                    <div class="a_li_t1">
+                                        <div class="appr_cons">@item.detail</div>
+                                        <div class="appr_time">@item.createtime</div>
+                                    </div>
+                                    <div class="a_li_t4">
+                                        <img src="@item.user.img"><br><span>@item.user.nickname</span>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Display Area end -->
+    </div>
+</div>
+
+@* JavaScript for switching between views, do not omit *@
+<script>
+    function sub() {
+        var content = $("#content").val();
+        if (content.trim().length < 1) {
+            alert("Please enter review content!");
+            return;
+        }
+        // Add review
+        $.ajax({
+            url: "/Comment/Create",
+            type: "post",
+            data: {
+                detail: content,
+                uid: @(Session["user_id"] != null ? Session["user_id"].ToString() : "0"),
+                createtime: "@DateTime.Now",
+                shop_id: @Model.id
+            },
+            success: function (res) {
+                if (res == "200") {
+                    alert("Review submitted successfully!");
+                    window.location.reload();
+                } else {
+                    alert("Failed to submit review!")
+                }
+            },
+            error: function (res) {
+                alert("Request failed, could not submit review!")
+            },
+        });
+    }
+
+    function choice(obj, num) {
+        if (num == 1) {
+            // Order of the following code is important
+            $("#chocieBox li").removeClass("on");
+            $("#chocieBox li").eq(0).addClass("on");
+            // This part
+            $(".goods_box").show();
+            $(".appraise_box").hide();
+        } else {
+            // Order of the following code is important
+            $("#chocieBox li").removeClass("on");
+            $("#chocieBox li").eq(1).addClass("on");
+            // This part
+            $(".appraise_box").show();
+            $(".goods_box").hide();
+        }
+    }
+
+    // Decrease quantity operation
+    $("#dec").click(function () {
+        var num = $("#number").val();
+        if (num == 1) {
+            alert("This is the minimum quantity, cannot decrease further!");
+            return;
+        }
+        num = parseInt(num) - 1;
+        $("#number").val(num);
+    })
+    // Increase quantity operation
+    $("#add").click(function () {
+        var nums = $("#nums").text(); // Total quantity
+        var num = $("#number").val(); // Quantity in the input field
+        if (num >= parseInt(nums)) {
+            alert("This is the maximum quantity available, cannot increase further!");
+            return;
+        }
+        num = parseInt(num) + 1;
+        $("#number").val(num);
+    })
+    // Validate quantity input
+    $("#number").blur(function () {
+        var num = $("#number").val();
+        var nums = $("#nums").text(); // Total quantity
+        num = parseInt(num);
+        nums = parseInt(nums);
+        if (num < 0) {
+            alert("Invalid quantity, minimum is 1!");
+            $("#number").val(1);
+            return;
+        }
+        if (num > nums) {
+            alert("Quantity exceeds available stock!");
+            $("#number").val(nums);
+            return;
+        }
+    });
+</script>

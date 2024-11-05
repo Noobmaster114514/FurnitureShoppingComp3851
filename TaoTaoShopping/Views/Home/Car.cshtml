@@ -1,0 +1,96 @@
+﻿@model IEnumerable<TaoTaoShopping.Models.shop_car>
+@{
+    ViewBag.Title = "Car";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<div class="w1200">
+    <!-- Shopping Cart Core Code -->
+    <link rel="stylesheet" href="~/Content/css/buycar.css">
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <h2 class="title">My Shopping Cart</h2>
+    <table class="table">
+        <tr>
+            <td>Product Image</td>
+            <td>Product Name</td>
+            <td>Product Price</td>
+            <td>Quantity</td>
+            <td>Total Amount</td>
+            <td>Actions</td>
+        </tr>
+        @{
+            decimal sum = 0;
+        }
+        @foreach (TaoTaoShopping.Models.shop_car item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@item.shopping.img" width="50" height="50" alt="">
+                </td>
+                <td>@item.shopping.title</td>
+                <td>$@item.shopping.sale_price</td>
+                <td>@item.shopNum</td>
+                <td>$@(item.shopping.sale_price * item.shopNum)</td>
+                <td>
+                    <a href="javascript:void(0);" onclick="del(@item.shopid)">Delete</a>
+                    <input type="hidden" value="@item.shopid" class="shopid">
+                    <input type="hidden" value="@item.shopNum" class="number">
+                </td>
+            </tr>
+            { sum += Convert.ToDecimal(item.shopping.sale_price * item.shopNum); }
+        }
+        <tr>
+            <td colspan="4"></td>
+            <td>Total: $@sum</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="6" align="center">
+                <input type="button" id="buy" onclick="buy()" value="Checkout" class="buyBtn">
+            </td>
+        </tr>
+    </table>
+    <script>
+        function del(id) {
+            // Implement delete item from cart
+            var isLogin = "@(Session["user_id"] != null ? Session["user_id"].ToString() : "0")";
+            if (isLogin == "0") {
+                alert("Please login first!");
+                window.location.href = "/Home/Login";
+                return;
+            }
+            // Prompt the user; if they cancel, do not delete
+            if (!confirm("Are you sure you want to delete this item?")) {
+                return false;
+            }
+            // If logged in, proceed to delete from cart
+            $.ajax({
+                url: "/Home/delCar",
+                type: "post",
+                data: {
+                    shopId: id
+                },
+                success: function (res) {
+                    if (res == "200") {
+                        alert("Item deleted successfully!");
+                        window.location.reload(); // Refresh the page
+                    } else {
+                        alert("Failed to delete item!")
+                    }
+                },
+                error: function (res) {
+                    alert("Request failed, could not delete item!")
+                },
+            });
+        }
+        function buy() {
+            if ($(".table tr").length <= 3) {
+                alert("No items to checkout!");
+                return false;
+            }
+            // Redirect to checkout
+            window.location.href = "/Home/Pay";
+        }
+    </script>
+
+    <!-- End of Shopping Cart Core Code -->
+</div>

@@ -1,0 +1,172 @@
+﻿@model TaoTaoShopping.Models.shopping
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2 align="center">Edit Product</h2>
+
+<form action="" id="myForm" method="post">
+    @Html.AntiForgeryToken()
+    @* Why do we need a hidden Id field? => It is to conveniently lock data for modification!! *@
+    <input type="hidden" name="id" value="@Model.id" />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.title, "Product Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cid, "Product Category", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("cid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.cid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.price, "Original Price", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.sale_price, "Sale Price", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.sale_price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.sale_price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("input[name='price'], input[name='sale_price']").on("blur", function () {
+                    var value = $(this).val();
+                    if (value && !isNaN(value)) {
+                        $(this).val(parseFloat(value).toFixed(2));
+                    }
+                });
+            });
+        </script>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.number, "Quantity", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.number, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.detail, "Product Details", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <!-- Editor container -->
+                <script id="content" name="detail" type="text/plain">@(new HtmlString(Model.detail))</script>
+                <!-- Config file -->
+                <script type="text/javascript" src="/Content/utf8-net/ueditor.config.js"></script>
+                <!-- Editor source file -->
+                <script type="text/javascript" src="/Content/utf8-net/ueditor.all.js"></script>
+                <!-- Language file -->
+                <script type="text/javascript" src="~/Content/utf8-net/lang/en/en.js"></script>
+                <!-- Initialize editor -->
+                <script type="text/javascript">
+                    var ue = UE.getEditor('content', {
+                        // Default editor height
+                        initialFrameHeight: 400
+                    });
+                </script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.img, "Product Cover", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @* Cover image upload *@
+                <input class="width-main input" type="file" datatype="*" id="pic" name="pic" value="" accept="image/*" onchange="upload(event)">
+                <input type="hidden" name="img" id="img" value="@Model.img" />
+                <div id="showImg">
+                    <img src="@Model.img" width="100" height="100" alt="Alternate Text" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.shop_number, "Product Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.shop_number, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.shop_number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save Changes" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div align="center" class="row">
+    @Html.ActionLink("Back to Product List", "Index")
+</div>
+@* jQuery plugin for async upload *@
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    // Implement async upload
+    function upload(event) {
+        var imgPath = $("#pic").val();
+        console.log(imgPath);
+        // Check file extension
+        var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+
+        if (strExtension != 'jpg' && strExtension != 'gif' && strExtension != 'png' && strExtension != 'bmp') {
+            alert("Please select an image file");
+            return;
+        }
+        // Implement file upload
+        if (event.target.files[0].type.search('image') !== -1) {
+            // Upload image file
+            var formData = new FormData($("#myForm")[0]); // Create file stream object
+            $.ajax({
+                url: "/Upload/file",
+                type: "post",
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (res) {
+                    console.log(res);
+                    if (res.trim() == "209") {
+                        alert("Please select an image!");
+                        return;
+                    }
+                    if (res.trim() == "300") {
+                        alert("Uploaded image cannot be empty!");
+                        return;
+                    }
+                    if (res.trim() == "400") {
+                        alert("Image upload failed!");
+                        return;
+                    }
+                    $("#showImg").html("<img src='" + res + "' width='50' height='50' /><p style='color:red;'>Upload successful!</p>");
+                    // Set uploaded image address
+                    var res = res.trim(); // Remove leading and trailing whitespace
+                    $("#img").val(res);
+                },
+                error: function (res) {
+                    alert("Upload error!");
+                }
+            });
+        } else {
+            alert('Only image files are supported');
+        }
+    }
+</script>

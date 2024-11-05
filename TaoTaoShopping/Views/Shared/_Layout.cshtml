@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-clearmin.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/roboto.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/material-design.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/small-n-flat.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.min.css">
+    <title>Mall System</title>
+</head>
+<body class="cm-no-transition cm-1-navbar">
+    <div id="cm-menu">
+        <nav class="cm-navbar cm-navbar-primary">
+            <div class="cm-flex">
+                @* Change LOGO to text *@
+                <h1><a href="/" style="color:#fff;">Mall</a> </h1>
+            </div>
+            <div class="btn btn-primary md-menu-white" data-toggle="cm-menu"></div>
+        </nav>
+        <div id="cm-menu-content">
+            <div id="cm-menu-items-wrapper">
+                <div id="cm-menu-scroller">
+                    @* Left side menu area *@
+                    <ul class="cm-menu-items">
+                        <li><a href="/User/Index" class="sf-dashboard">User Management</a></li>
+                        <li><a href="/Comment/Index" class="sf-brick">Comment Management</a></li>
+                        <li class="cm-submenu">
+                            <a class="sf-window-layout">Product Category Management<span class="caret"></span></a>
+                            <ul>
+                                <li><a href="/Category/Create">Add Product Category</a></li>
+                                <li><a href="/Category/Index">Manage Product Categories</a></li>
+                            </ul>
+                        </li>
+                        <li class="cm-submenu">
+                            <a class="sf-cat">Product Management <span class="caret"></span></a>
+                            <ul>
+                                <li><a href="/Shopping/Create">Add Product</a></li>
+                                <li><a href="/Shopping/Index">Manage Products</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/Admins/Index" class="sf-notepad">Admin Management</a></li>
+                        <li><a href="/Order/Index" class="sf-lock-open">Order Management</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header id="cm-header">
+        <nav class="cm-navbar cm-navbar-primary">
+            <div class="btn btn-primary md-menu-white hidden-md hidden-lg" data-toggle="cm-menu"></div>
+            <div class="cm-flex">
+                <form id="cm-search" action="index.html" method="get">
+                    <input type="search" name="q" autocomplete="off" placeholder="Search...">
+                </form>
+            </div>
+            @* User information area *@
+            <div class="dropdown pull-right">
+                <button class="btn btn-primary md-account-circle-white" data-toggle="dropdown"></button>
+                <ul class="dropdown-menu">
+                    <li class="disabled text-center">
+                        <a style="cursor:default;"><strong>@(Session["nickname"] != null ? Session["nickname"].ToString():"")</strong></a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="/Admins/updatePwd?id=@(Session["id"] != null ? Session["id"].ToString():"")"><i class="fa fa-fw fa-user"></i>Change Password</a>
+                    </li>
+                    <li>
+                        <a href="/Login/Logout"><i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Main content area replacement -->
+    <div id="global">
+        <div class="container-fluid" style="background:#fff;">
+            <div class="row cm-fix-height">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <!-- Main content area replacement end -->
+    <script src="/assets/js/lib/jquery.min.js"></script>
+    <script src="/assets/js/jquery.mousewheel.min.js"></script>
+    <script src="/assets/js/jquery.cookie.min.js"></script>
+    <script src="/assets/js/fastclick.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/clearmin.min.js"></script>
+    <script src="/assets/js/demo/home.js"></script>
+</body>
+</html>

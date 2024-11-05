@@ -1,0 +1,86 @@
+﻿@model IEnumerable<TaoTaoShopping.Models.shopping>
+@{
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<!-- Carousel Area -->
+<div class="full_big_eye">
+    <!-- Carousel -->
+    <div class="full_eye">
+        <div id="inBaner">
+            <ul class="big_eye_pic">
+                <li style="display: block;">
+                    <a href="" class="img_box">
+                        <img src="/Content/image/web-101-101-1.png" style="width: 1920px;height: 800px" />
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="tpl">
+                        <img src="/Content/image/index5.jpg" style="width: 1920px;height: 800px" />
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="tpl">
+                        <img src="/Content/image/index2.jpg" style="width: 1920px;height: 800px" />
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="tpl">
+                        <img src="/Content/image/index3.jpg" style="width: 1920px;height: 800px" />
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="tpl">
+                        <img src="/Content/image/index4.jpg" style="width: 1920px;height: 800px" />
+                    </a>
+                </li>
+            </ul>
+            <div class="btn">
+                <ul>
+                    <li class="cur"></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Carousel -->
+</div>
+<!-- Carousel Area -->
+<!-- Product Area -->
+<div class="w1200">
+    <div class="v_h2">
+
+        Looking for a piece of furniture in Singapore for a new place, office, business? Then you came to the right site. We provide top quality furniture at a reasonable price.
+
+    </div>
+
+    <!-- Fourth Area -->
+    <div class="day_box">
+        <div class="qinha_title">
+
+        </div>
+        <ul class="day_goods">
+            @* Loop through products *@
+            @foreach (TaoTaoShopping.Models.shopping item in Model)
+            {
+                <li>
+                    <a href="/Home/Detail?id=@item.id" class="a_con_list">
+                        <p class="p_img"><img src="@item.img" /></p>
+                    </a>
+                    <p class="p_title">
+                        <span></span>@item.title
+                    </p>
+
+                    <p class="p_p">
+                        <span class="price1">$<span>@item.sale_price</span></span>
+                        <span class="price2"><del>$@item.price</del></span>
+                    </p>
+                </li>
+            }
+        </ul>
+    </div>
+    <!-- Fourth Area -->
+</div>
+<!-- Product Area -->

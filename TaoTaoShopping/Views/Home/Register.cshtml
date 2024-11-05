@@ -1,0 +1,115 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mall Registration</title>
+    <link rel="stylesheet" type="text/css" href="/Content/css/login.css" />
+</head>
+<body>
+    <div id="append"></div>
+    <div class="full_sc">
+        <div class="head_cent head_cwo ClearFix">
+            <div class="h_logo">
+                <a href="">
+                    <img src="/Content/image/logo.jpg" />
+                </a>
+            </div>
+            <div class="h_right">
+                <img src="/Content/image/top_center.jpg" />
+            </div>
+        </div>
+    </div>
+    <div class="w980 ClearFix">
+        <div class="logo_box ClearFix">
+            <div class="login_b_l ClearFix">
+                <a href="" title="Start">
+                    <img src="/Content/image/register.jpg" alt="Start" />
+                </a>
+            </div>
+            <div class="login_b_r ClearFix">
+                <div class="loginul ClearFix">
+                    <div class="login_h2 ClearFix">
+                        <h2>User Registration</h2>
+                        <div class="lognrtop">
+                            Already have an account? <a href="/Home/Login">Login here</a>
+                        </div>
+                    </div>
+                    <div class="co">
+                        <div class="form">
+                            <form id="register_form" method="post" action="">
+                                <div class="item">
+                                    <input placeholder="Enter Username" class="itxt" autocomplete="off" tabindex="1" maxlength="11" name="username" id="username" type="text">
+                                    <div class="err_box">
+                                        <div class="err_msg2" style="display: none;" id="error_mobile">Please enter your username</div>
+                                    </div>
+                                </div>
+                                <div class="item item2">
+                                    <input placeholder="Enter Password" tabindex="4" maxlength="20" class="itxt" name="pwd" id="pwd" type="password">
+                                    <div class="err_box">
+                                        <div class="err_msg2" style="display: none;" id="error_password">Please enter your password, which may be a combination of letters, numbers, or symbols</div>
+                                    </div>
+                                </div>
+                                <div class="item item2">
+                                    <input placeholder="Confirm Password" class="itxt" tabindex="5" maxlength="20" name="password_confirm" id="password_confirm" type="password">
+                                    <div class="err_box">
+                                        <div class="err_msg2" style="display: none;" id="error_password_confirm">Please enter your password, which may be a combination of letters, numbers, or symbols</div>
+                                    </div>
+                                </div>
+                                <div class="item item3">
+                                    <input placeholder="Nickname" autocomplete="off" tabindex="6" maxlength="4" size="10" class="itxt" name="nickname" id="nickname" type="text">
+                                </div>
+                                <div class="item item5">
+                                    <div class="login-btn">
+                                        <a id="loginsubmit" tabindex="7" class="btn-img btn-entry" href="javascript:;">Register Now</a>
+                                    </div>
+                                    <div class="agree">
+                                        <input class="jdcheckbox" tabindex="8" name="agree" id="agree" checked="checked" type="checkbox">
+                                        <label for="autoLogin">Registering means you agree to Mall's <span><a href="" target="_blank">"User Service Agreement"</a></span> terms</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@* Include jQuery library *@
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $("#loginsubmit").click(function () {
+        // Get the username and password
+        var username = $("#username").val();
+        var pwd = $("#pwd").val();
+        var password_confirm = $("#password_confirm").val();
+        var nickname = $("#nickname").val();
+        if (username.length < 1) {
+            alert("Please enter your username!");
+            return;
+        }
+        if (pwd.length < 1) {
+            alert("Please enter your password!");
+            return;
+        }
+        if (password_confirm.length < 1) {
+            alert("Please enter the password confirmation!");
+            return;
+        }
+        if (password_confirm != pwd) {
+            alert("Password and confirmation password do not match!");
+            return;
+        }
+        if (nickname.length < 1) {
+            alert("Please enter your nickname!");
+            return;
+        }
+        // Submit the form
+        $("#register_form").submit();
+    });
+</script>

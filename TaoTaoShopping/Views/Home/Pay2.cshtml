@@ -1,0 +1,106 @@
+﻿@model TaoTaoShopping.Models.shopping
+@{
+    ViewBag.Title = "Pay";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div class="w1200">
+    <!-- Shopping Cart Core Code -->
+    <link rel="stylesheet" href="~/Content/css/buycar.css">
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <h2 class="title">Checkout</h2>
+    <table class="table" id="table">
+        <tr>
+            <td>Product Image</td>
+            <td>Product Name</td>
+            <td>Product Price</td>
+            <td>Quantity</td>
+            <td>Total Amount</td>
+        </tr>
+        <tr>
+            <td>
+                <img src="@Model.img" width="50" height="50" alt="">
+            </td>
+            <td>@Model.title</td>
+            <td>$@Model.sale_price</td>
+            <td>@ViewBag.shopNum</td>
+            <td>$@(Model.sale_price * ViewBag.shopNum)</td>
+        </tr>
+        <tr>
+            <td colspan="4"></td>
+            <td>Total: $@(Model.sale_price * ViewBag.shopNum)</td>
+            <td></td>
+        </tr>
+    </table>
+    <h3>My Address</h3>
+    <table class="table">
+        @for (int i = 0; i < ViewBag.address.Count; i++)
+        {
+            <tr>
+                <th>
+                    <input type="radio" name="address" checked value="@ViewBag.address[i].id" id="s@(ViewBag.address[i].id)">
+                    <label for="s@(ViewBag.address[i].id)"> @ViewBag.address[i].name - @ViewBag.address[i].phone - @ViewBag.address[i].address1 </label>
+                    <a href="/Addresse/Index" target="_blank">Manage My Addresses</a>
+                </th>
+            </tr>
+        }
+    </table>
+    @if (ViewBag.address.Count == 0)
+    {
+        <p>You have not added an address, please add an address first. <a href="/Addresse/Index" target="_blank">Manage My Addresses</a></p>
+    }
+    <h3>Payment Method</h3>
+    <table class="table">
+        <tr>
+            <th>
+                
+                <input type="radio" name="pay" value="Bank Card" id="ss4"> <label for="ss4"> Bank Card</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                
+            </th>
+        </tr>
+    </table>
+    <h3>Order Notes</h3>
+    <textarea style="width:100%;height:40px;" placeholder="Enter any notes for the order" id="mark"></textarea>
+
+    <center>
+        <input type="button" id="buy" onclick="buy()" value="Checkout" class="buyBtn">
+    </center>
+    <script>
+        function buy() {
+            // Check if the user has selected an address
+            if ($("input[name='address']:checked").length == 0) {
+                alert("Please add a shipping address first!");
+                return;
+            }
+            alert("You will be redirected to a third-party payment!");
+            // Execute operation
+            if (confirm("Have you completed the payment?")) {
+                $.ajax({
+                    url: "/Home/Pay2",
+                    type: "post",
+                    data: {
+                        address_id: $("input[name='address']:checked").val(),
+                        payWay: $("input[name='pay']:checked").val(),
+                        mark: $("#mark").val(),
+                        shopId: @Model.id,
+                        shopNum: @ViewBag.shopNum
+                    },
+                    success: function (res) {
+                        if (res == "200") {
+                            alert("Payment successful!");
+                            window.location.href = "/Order/Index2"; // To the order page
+                        } else {
+                            alert("Payment failed!")
+                        }
+                    },
+                    error: function (res) {
+                        alert("Request failed, payment failed!")
+                    },
+                });
+            } else {
+                alert("Please click [Checkout] again!");
+            }
+        }
+    </script>
+    <!-- Shopping Cart Core Code End -->
+</div>
