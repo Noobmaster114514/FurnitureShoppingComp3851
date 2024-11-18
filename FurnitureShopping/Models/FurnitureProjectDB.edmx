@@ -1,0 +1,856 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FurnitureProjectDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="address">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="mark" Type="varchar" MaxLength="50" />
+          <Property Name="createtime" Type="date" />
+          <Property Name="uid" Type="int" />
+        </EntityType>
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pwd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="nickname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="power" Type="smallint" Nullable="false" />
+          <Property Name="createtime" Type="date" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="catename" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="detail" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="uid" Type="int" Nullable="false" />
+          <Property Name="shop_id" Type="int" Nullable="false" />
+          <Property Name="createtime" Type="date" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="int" />
+          <Property Name="order_num" Type="varchar" MaxLength="50" />
+          <Property Name="sum_price" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="mark" Type="varchar" MaxLength="50" />
+          <Property Name="createtime" Type="date" />
+          <Property Name="is_pay" Type="smallint" />
+          <Property Name="state" Type="smallint" />
+          <Property Name="pay_way" Type="varchar" MaxLength="20" />
+          <Property Name="address_id" Type="int" />
+          <Property Name="address" Type="varchar" MaxLength="250" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="phone" Type="varchar" MaxLength="12" />
+        </EntityType>
+        <EntityType Name="order_detail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="order_id" Type="int" />
+          <Property Name="count" Type="int" />
+          <Property Name="price" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="sum_price" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="shop_id" Type="int" />
+          <Property Name="title" Type="varchar" MaxLength="255" />
+          <Property Name="aid" Type="int" />
+        </EntityType>
+        <EntityType Name="product_attribute">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="250" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="pid" Type="int" />
+          <Property Name="attrimg" Type="varchar" MaxLength="255" />
+          <Property Name="attristock" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="shop_car">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="int" />
+          <Property Name="shopid" Type="int" />
+          <Property Name="shopNum" Type="int" />
+          <Property Name="createtime" Type="date" />
+          <Property Name="aid" Type="int" />
+          <Property Name="productAttributeId" Type="int" />
+        </EntityType>
+        <EntityType Name="shopping">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="cid" Type="int" />
+          <Property Name="price" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="sale_price" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="number" Type="int" Nullable="false" />
+          <Property Name="detail" Type="text" Nullable="false" />
+          <Property Name="img" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="shop_number" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pwd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="nickname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="sex" Type="smallint" />
+          <Property Name="introduce" Type="varchar" MaxLength="50" />
+          <Property Name="age" Type="int" />
+          <Property Name="img" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK_address_user">
+          <End Role="user" Type="Self.user" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="address" Type="Self.address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="address">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_comment_shopping">
+          <End Role="shopping" Type="Self.shopping" Multiplicity="1" />
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="shopping">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="shop_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_comment_user">
+          <End Role="user" Type="Self.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="comment" Type="Self.comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_detail_order">
+          <End Role="order" Type="Self.order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order_detail" Type="Self.order_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_detail">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_detail_shopping">
+          <End Role="shopping" Type="Self.shopping" Multiplicity="0..1" />
+          <End Role="order_detail" Type="Self.order_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="shopping">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_detail">
+              <PropertyRef Name="shop_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_user">
+          <End Role="user" Type="Self.user" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_product_attribute_shopping">
+          <End Role="shopping" Type="Self.shopping" Multiplicity="0..1" />
+          <End Role="product_attribute" Type="Self.product_attribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="shopping">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product_attribute">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_shop_car_product_attribute">
+          <End Role="product_attribute" Type="Self.product_attribute" Multiplicity="0..1" />
+          <End Role="shop_car" Type="Self.shop_car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product_attribute">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="shop_car">
+              <PropertyRef Name="productAttributeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_shop_car_shopping">
+          <End Role="shopping" Type="Self.shopping" Multiplicity="0..1" />
+          <End Role="shop_car" Type="Self.shop_car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="shopping">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="shop_car">
+              <PropertyRef Name="shopid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_shop_car_user">
+          <End Role="user" Type="Self.user" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="shop_car" Type="Self.shop_car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="shop_car">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_shopping_category">
+          <End Role="category" Type="Self.category" Multiplicity="0..1" />
+          <End Role="shopping" Type="Self.shopping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="shopping">
+              <PropertyRef Name="cid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FurnitureProjectDBModelStoreContainer">
+          <EntitySet Name="address" EntityType="Self.address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order_detail" EntityType="Self.order_detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="product_attribute" EntityType="Self.product_attribute" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="shop_car" EntityType="Self.shop_car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="shopping" EntityType="Self.shopping" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_address_user" Association="Self.FK_address_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="address" EntitySet="address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_comment_shopping" Association="Self.FK_comment_shopping">
+            <End Role="shopping" EntitySet="shopping" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_comment_user" Association="Self.FK_comment_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_detail_order" Association="Self.FK_order_detail_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_detail_shopping" Association="Self.FK_order_detail_shopping">
+            <End Role="shopping" EntitySet="shopping" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_user" Association="Self.FK_order_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_product_attribute_shopping" Association="Self.FK_product_attribute_shopping">
+            <End Role="shopping" EntitySet="shopping" />
+            <End Role="product_attribute" EntitySet="product_attribute" />
+          </AssociationSet>
+          <AssociationSet Name="FK_shop_car_product_attribute" Association="Self.FK_shop_car_product_attribute">
+            <End Role="product_attribute" EntitySet="product_attribute" />
+            <End Role="shop_car" EntitySet="shop_car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_shop_car_shopping" Association="Self.FK_shop_car_shopping">
+            <End Role="shopping" EntitySet="shopping" />
+            <End Role="shop_car" EntitySet="shop_car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_shop_car_user" Association="Self.FK_shop_car_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="shop_car" EntitySet="shop_car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_shopping_category" Association="Self.FK_shopping_category">
+            <End Role="category" EntitySet="category" />
+            <End Role="shopping" EntitySet="shopping" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FurnitureProjectDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FurnitureProjectDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="address" EntityType="FurnitureProjectDBModel.address" />
+          <EntitySet Name="admin" EntityType="FurnitureProjectDBModel.admin" />
+          <EntitySet Name="category" EntityType="FurnitureProjectDBModel.category" />
+          <EntitySet Name="comment" EntityType="FurnitureProjectDBModel.comment" />
+          <EntitySet Name="order" EntityType="FurnitureProjectDBModel.order" />
+          <EntitySet Name="order_detail" EntityType="FurnitureProjectDBModel.order_detail" />
+          <EntitySet Name="shop_car" EntityType="FurnitureProjectDBModel.shop_car" />
+          <EntitySet Name="shopping" EntityType="FurnitureProjectDBModel.shopping" />
+          <EntitySet Name="user" EntityType="FurnitureProjectDBModel.user" />
+          <AssociationSet Name="FK_address_user" Association="FurnitureProjectDBModel.FK_address_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="address" EntitySet="address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_shopping_category" Association="FurnitureProjectDBModel.FK_shopping_category">
+            <End Role="category" EntitySet="category" />
+            <End Role="shopping" EntitySet="shopping" />
+          </AssociationSet>
+          <AssociationSet Name="FK_comment_user" Association="FurnitureProjectDBModel.FK_comment_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_detail_order" Association="FurnitureProjectDBModel.FK_order_detail_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_user" Association="FurnitureProjectDBModel.FK_order_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_shop_car_user" Association="FurnitureProjectDBModel.FK_shop_car_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="shop_car" EntitySet="shop_car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_shop_car_shopping" Association="FurnitureProjectDBModel.FK_shop_car_shopping">
+            <End Role="shopping" EntitySet="shopping" />
+            <End Role="shop_car" EntitySet="shop_car" />
+          </AssociationSet>
+          <AssociationSet Name="FK_comment_shopping" Association="FurnitureProjectDBModel.FK_comment_shopping">
+            <End Role="shopping" EntitySet="shopping" />
+            <End Role="comment" EntitySet="comment" />
+          </AssociationSet>
+          <EntitySet Name="product_attribute" EntityType="FurnitureProjectDBModel.product_attribute" />
+          <AssociationSet Name="FK_product_attribute_shopping" Association="FurnitureProjectDBModel.FK_product_attribute_shopping">
+            <End Role="shopping" EntitySet="shopping" />
+            <End Role="product_attribute" EntitySet="product_attribute" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_detail_shopping" Association="FurnitureProjectDBModel.FK_order_detail_shopping">
+            <End Role="shopping" EntitySet="shopping" />
+            <End Role="order_detail" EntitySet="order_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_shop_car_product_attribute" Association="FurnitureProjectDBModel.FK_shop_car_product_attribute">
+            <End Role="product_attribute" EntitySet="product_attribute" />
+            <End Role="shop_car" EntitySet="shop_car" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="address">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="address1" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="mark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="createtime" Type="DateTime" Precision="0" />
+          <Property Name="uid" Type="Int32" />
+          <NavigationProperty Name="user" Relationship="FurnitureProjectDBModel.FK_address_user" FromRole="address" ToRole="user" />
+        </EntityType>
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pwd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nickname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="power" Type="Int16" Nullable="false" />
+          <Property Name="createtime" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="catename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="shopping" Relationship="FurnitureProjectDBModel.FK_shopping_category" FromRole="category" ToRole="shopping" />
+        </EntityType>
+        <EntityType Name="comment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="detail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="uid" Type="Int32" Nullable="false" />
+          <Property Name="shop_id" Type="Int32" Nullable="false" />
+          <Property Name="createtime" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="user" Relationship="FurnitureProjectDBModel.FK_comment_user" FromRole="comment" ToRole="user" />
+          <NavigationProperty Name="shopping" Relationship="FurnitureProjectDBModel.FK_comment_shopping" FromRole="comment" ToRole="shopping" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" />
+          <Property Name="order_num" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sum_price" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="mark" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="createtime" Type="DateTime" Precision="0" />
+          <Property Name="is_pay" Type="Int16" />
+          <Property Name="state" Type="Int16" />
+          <Property Name="pay_way" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="address_id" Type="Int32" />
+          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="order_detail" Relationship="FurnitureProjectDBModel.FK_order_detail_order" FromRole="order" ToRole="order_detail" />
+          <NavigationProperty Name="user" Relationship="FurnitureProjectDBModel.FK_order_user" FromRole="order" ToRole="user" />
+        </EntityType>
+        <EntityType Name="order_detail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="order_id" Type="Int32" />
+          <Property Name="count" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="sum_price" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="shop_id" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="order" Relationship="FurnitureProjectDBModel.FK_order_detail_order" FromRole="order_detail" ToRole="order" />
+          <Property Name="aid" Type="Int32" />
+          <NavigationProperty Name="shopping" Relationship="FurnitureProjectDBModel.FK_order_detail_shopping" FromRole="order_detail" ToRole="shopping" />
+        </EntityType>
+        <EntityType Name="shop_car">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="Int32" />
+          <Property Name="shopid" Type="Int32" />
+          <Property Name="shopNum" Type="Int32" />
+          <Property Name="createtime" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="user" Relationship="FurnitureProjectDBModel.FK_shop_car_user" FromRole="shop_car" ToRole="user" />
+          <NavigationProperty Name="shopping" Relationship="FurnitureProjectDBModel.FK_shop_car_shopping" FromRole="shop_car" ToRole="shopping" />
+          <Property Name="aid" Type="Int32" />
+          <Property Name="productAttributeId" Type="Int32" />
+          <NavigationProperty Name="product_attribute" Relationship="FurnitureProjectDBModel.FK_shop_car_product_attribute" FromRole="shop_car" ToRole="product_attribute" />
+        </EntityType>
+        <EntityType Name="shopping">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="cid" Type="Int32" />
+          <Property Name="price" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="sale_price" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="number" Type="Int32" Nullable="false" />
+          <Property Name="detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="img" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="shop_number" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="category" Relationship="FurnitureProjectDBModel.FK_shopping_category" FromRole="shopping" ToRole="category" />
+          <NavigationProperty Name="shop_car" Relationship="FurnitureProjectDBModel.FK_shop_car_shopping" FromRole="shopping" ToRole="shop_car" />
+          <NavigationProperty Name="comment" Relationship="FurnitureProjectDBModel.FK_comment_shopping" FromRole="shopping" ToRole="comment" />
+          <NavigationProperty Name="product_attribute" Relationship="FurnitureProjectDBModel.FK_product_attribute_shopping" FromRole="shopping" ToRole="product_attribute" />
+          <NavigationProperty Name="order_detail" Relationship="FurnitureProjectDBModel.FK_order_detail_shopping" FromRole="shopping" ToRole="order_detail" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pwd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nickname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sex" Type="Int16" />
+          <Property Name="introduce" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="age" Type="Int32" />
+          <Property Name="img" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="address" Relationship="FurnitureProjectDBModel.FK_address_user" FromRole="user" ToRole="address" />
+          <NavigationProperty Name="comment" Relationship="FurnitureProjectDBModel.FK_comment_user" FromRole="user" ToRole="comment" />
+          <NavigationProperty Name="order" Relationship="FurnitureProjectDBModel.FK_order_user" FromRole="user" ToRole="order" />
+          <NavigationProperty Name="shop_car" Relationship="FurnitureProjectDBModel.FK_shop_car_user" FromRole="user" ToRole="shop_car" />
+        </EntityType>
+        <Association Name="FK_address_user">
+          <End Type="FurnitureProjectDBModel.user" Role="user" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FurnitureProjectDBModel.address" Role="address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="address">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_shopping_category">
+          <End Type="FurnitureProjectDBModel.category" Role="category" Multiplicity="0..1" />
+          <End Type="FurnitureProjectDBModel.shopping" Role="shopping" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="shopping">
+              <PropertyRef Name="cid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_comment_user">
+          <End Type="FurnitureProjectDBModel.user" Role="user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FurnitureProjectDBModel.comment" Role="comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_detail_order">
+          <End Type="FurnitureProjectDBModel.order" Role="order" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FurnitureProjectDBModel.order_detail" Role="order_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_detail">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_user">
+          <End Type="FurnitureProjectDBModel.user" Role="user" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FurnitureProjectDBModel.order" Role="order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_shop_car_user">
+          <End Type="FurnitureProjectDBModel.user" Role="user" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="FurnitureProjectDBModel.shop_car" Role="shop_car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="shop_car">
+              <PropertyRef Name="uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_shop_car_shopping">
+          <End Type="FurnitureProjectDBModel.shopping" Role="shopping" Multiplicity="0..1" />
+          <End Type="FurnitureProjectDBModel.shop_car" Role="shop_car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="shopping">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="shop_car">
+              <PropertyRef Name="shopid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_comment_shopping">
+          <End Type="FurnitureProjectDBModel.shopping" Role="shopping" Multiplicity="1" />
+          <End Type="FurnitureProjectDBModel.comment" Role="comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="shopping">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="comment">
+              <PropertyRef Name="shop_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="product_attribute">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="pid" Type="Int32" />
+          <NavigationProperty Name="shopping" Relationship="FurnitureProjectDBModel.FK_product_attribute_shopping" FromRole="product_attribute" ToRole="shopping" />
+          <Property Name="attrimg" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="attristock" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="shop_car" Relationship="FurnitureProjectDBModel.FK_shop_car_product_attribute" FromRole="product_attribute" ToRole="shop_car" />
+        </EntityType>
+        <Association Name="FK_product_attribute_shopping">
+          <End Type="FurnitureProjectDBModel.shopping" Role="shopping" Multiplicity="0..1" />
+          <End Type="FurnitureProjectDBModel.product_attribute" Role="product_attribute" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="shopping">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="product_attribute">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_detail_shopping">
+          <End Type="FurnitureProjectDBModel.shopping" Role="shopping" Multiplicity="0..1" />
+          <End Type="FurnitureProjectDBModel.order_detail" Role="order_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="shopping">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="order_detail">
+              <PropertyRef Name="shop_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_shop_car_product_attribute">
+          <End Type="FurnitureProjectDBModel.product_attribute" Role="product_attribute" Multiplicity="0..1" />
+          <End Type="FurnitureProjectDBModel.shop_car" Role="shop_car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product_attribute">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="shop_car">
+              <PropertyRef Name="productAttributeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FurnitureProjectDBModelStoreContainer" CdmEntityContainer="FurnitureProjectDBEntities">
+          <EntitySetMapping Name="address">
+            <EntityTypeMapping TypeName="FurnitureProjectDBModel.address">
+              <MappingFragment StoreEntitySet="address">
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="mark" ColumnName="mark" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address1" ColumnName="address" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="admin">
+            <EntityTypeMapping TypeName="FurnitureProjectDBModel.admin">
+              <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="power" ColumnName="power" />
+                <ScalarProperty Name="nickname" ColumnName="nickname" />
+                <ScalarProperty Name="pwd" ColumnName="pwd" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="category">
+            <EntityTypeMapping TypeName="FurnitureProjectDBModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="catename" ColumnName="catename" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="comment">
+            <EntityTypeMapping TypeName="FurnitureProjectDBModel.comment">
+              <MappingFragment StoreEntitySet="comment">
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="shop_id" ColumnName="shop_id" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order">
+            <EntityTypeMapping TypeName="FurnitureProjectDBModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="address_id" ColumnName="address_id" />
+                <ScalarProperty Name="pay_way" ColumnName="pay_way" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="is_pay" ColumnName="is_pay" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="mark" ColumnName="mark" />
+                <ScalarProperty Name="sum_price" ColumnName="sum_price" />
+                <ScalarProperty Name="order_num" ColumnName="order_num" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order_detail">
+            <EntityTypeMapping TypeName="FurnitureProjectDBModel.order_detail">
+              <MappingFragment StoreEntitySet="order_detail">
+                <ScalarProperty Name="aid" ColumnName="aid" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="shop_id" ColumnName="shop_id" />
+                <ScalarProperty Name="sum_price" ColumnName="sum_price" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="shop_car">
+            <EntityTypeMapping TypeName="FurnitureProjectDBModel.shop_car">
+              <MappingFragment StoreEntitySet="shop_car">
+                <ScalarProperty Name="productAttributeId" ColumnName="productAttributeId" />
+                <ScalarProperty Name="aid" ColumnName="aid" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="shopNum" ColumnName="shopNum" />
+                <ScalarProperty Name="shopid" ColumnName="shopid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="shopping">
+            <EntityTypeMapping TypeName="FurnitureProjectDBModel.shopping">
+              <MappingFragment StoreEntitySet="shopping">
+                <ScalarProperty Name="shop_number" ColumnName="shop_number" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="sale_price" ColumnName="sale_price" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="cid" ColumnName="cid" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="FurnitureProjectDBModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="introduce" ColumnName="introduce" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="nickname" ColumnName="nickname" />
+                <ScalarProperty Name="pwd" ColumnName="pwd" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="product_attribute">
+            <EntityTypeMapping TypeName="FurnitureProjectDBModel.product_attribute">
+              <MappingFragment StoreEntitySet="product_attribute">
+                <ScalarProperty Name="attristock" ColumnName="attristock" />
+                <ScalarProperty Name="attrimg" ColumnName="attrimg" />
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram DiagramId="26f64ce6805d46af99e7f7c2116dab30" Name="Diagram1">
+        <EntityTypeShape EntityType="FurnitureProjectDBModel.address" Width="1.5" PointX="5.25" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FurnitureProjectDBModel.admin" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FurnitureProjectDBModel.category" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FurnitureProjectDBModel.comment" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FurnitureProjectDBModel.order" Width="1.5" PointX="6" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FurnitureProjectDBModel.order_detail" Width="1.5" PointX="8.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FurnitureProjectDBModel.shop_car" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FurnitureProjectDBModel.shopping" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FurnitureProjectDBModel.user" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FurnitureProjectDBModel.product_attribute" Width="1.5" PointX="5.25" PointY="16.25" IsExpanded="true" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_address_user" ManuallyRouted="false" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_shopping_category" ManuallyRouted="false" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_comment_user" ManuallyRouted="false" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_order_detail_order" ManuallyRouted="false" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_order_user" ManuallyRouted="false" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_shop_car_user" ManuallyRouted="false" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_shop_car_shopping" ManuallyRouted="false" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_comment_shopping" ManuallyRouted="false" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_product_attribute_shopping" ManuallyRouted="false" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_order_detail_shopping" ManuallyRouted="false" />
+        <AssociationConnector Association="FurnitureProjectDBModel.FK_shop_car_product_attribute" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<FurnitureShopping.Models.product_attribute>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Product specification management</h2>
+<div>
+    <a href="/Shopping/Index" class="btn btn-default">Back</a>
+</div>
+
+<hr />
+
+<p>
+    <a href="/ProductAttribute/Create?pid=@ViewBag.pid" class="btn btn-success">Create</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Specification
+            </th>
+            <th>
+                Stock
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Image
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.title
+                </td>
+                <td>
+                    @item.attristock
+                </td>
+                <td>
+                    @item.price
+                </td>
+                <td>
+                    
+                    
+                 <img src="@(string.IsNullOrEmpty(item.attrimg) ? item.shopping.img : item.attrimg)" width="100" />
+                </td>
+                <td>
+                    <a href="/ProductAttribute/Edit?pid=@ViewBag.pid&id=@item.id" class="btn btn-info">Edit</a> |
+                    <a href="/ProductAttribute/Delete?id=@item.id" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (!Model.Any())
+{
+    <h1 align="center">No Data Found</h1>
+}

@@ -1,0 +1,165 @@
+﻿@model IEnumerable<FurnitureShopping.Models.order_detail>
+    @using FurnitureShopping.Models
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2 align="center">Order Details</h2>
+<style>
+    .middle {
+        width: 400px;
+        margin: 0 auto;
+    }
+</style>
+<div class="middle">
+    <dl class="dl-horizontal">
+        <dt>
+            Order Number:
+        </dt>
+
+        <dd>
+            @ViewBag.order.order_num
+        </dd>
+
+        <dt>
+            Order Amount:
+        </dt>
+
+        <dd>
+            $@ViewBag.order.sum_price
+        </dd>
+
+        <dt>
+            Order Remarks:
+        </dt>
+
+        <dd>
+            @ViewBag.order.mark
+        </dd>
+
+        <dt>
+            Order Time:
+        </dt>
+
+        <dd>
+            @ViewBag.order.createtime
+        </dd>
+
+        <dt>
+            Has the order been paid for:
+        </dt>
+
+        <dd>
+            @if (ViewBag.order.is_pay == 1)
+            {
+                <span>Paid</span>
+            }
+            else
+            {
+                <span class="btn btn-danger">Not Paid</span>
+            }
+        </dd>
+        <dt>
+            Payment Method:
+        </dt>
+
+        <dd>
+            @ViewBag.order.pay_way
+        </dd>
+        
+
+        <dt>
+            Ordered By:
+        </dt>
+
+        <dd>
+            @ViewBag.order.user.username
+        </dd>
+        
+    </dl>
+</div>
+<hr />
+<h2 align="center">Shipping Information</h2>
+<table class="table">
+    <tr>
+        <th>
+            Recipient: @ViewBag.order.name
+        </th>
+        <th>
+            Contact Number: @ViewBag.order.phone
+        </th>
+        <th>
+            Shipping Address: @ViewBag.order.address
+        </th>
+    </tr>
+</table>
+<hr />
+<h2 align="center">Order Details</h2>
+<table class="table">
+    <tr>
+        <th>
+            Cover
+        </th>
+        <th>
+            Product Name
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Product Price
+        </th>
+        <th>
+            Total Price
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>
+                @{
+                    FurnitureProjectDBEntities db = new FurnitureProjectDBEntities();
+                    var info = db.product_attribute.FirstOrDefault(p => p.id == item.aid);
+                    string imgUrl = info != null && !string.IsNullOrEmpty(info.attrimg) ? info.attrimg : item.shopping.img;
+                }
+                <img src="@imgUrl" width="50" height="50" alt="Alternate Text" />
+            </th>
+            <th>
+                @item.title
+                @{
+                    if (info != null)
+                    {
+                        <b style="color:red">(@info.title)</b>
+                    }
+                    else
+                    {
+                        <b style="color:red">(default)</b>
+                    }
+                }
+            </th>
+
+            <th>
+                @item.count
+            </th>
+            <th>
+                @{
+                    // 优先显示 product_attribute 中的 price
+                    var price = info != null ? info.price : item.price;
+                    @price
+                }
+            </th>
+            <th>
+                @{
+                    // 计算总价为 price * count
+                    var totalPrice = (info != null ? info.price : item.price) * item.count;
+                    @totalPrice
+                }
+            </th>
+        </tr>
+    }
+
+</table>
+<center>
+    <a href="javascript:void(0)" class="btn btn-info" onclick="window.history.back(-1);">Back</a>
+</center>

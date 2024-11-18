@@ -1,0 +1,47 @@
+﻿@model FurnitureShopping.Models.shopping
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Product Specification</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form action="" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label class="control-label">Product Info</label>
+                id： @Model.id<br />
+                title：@Model.title <br />
+                image: <img src="@(ViewBag.ainfo != null && ViewBag.ainfo.attrimg != null ? ViewBag.ainfo.attrimg : @Model.img)" width="100" />
+                <input type="hidden" name="Pid" value="@Model.id" />
+                <input type="hidden" name="Id" value="@ViewBag.ainfo.id" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Title:</label>
+                <input name="Title" value="@ViewBag.ainfo.title" required class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Price:</label>
+                <input name="Price" value="@ViewBag.ainfo.price" required class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Stock Quantity:</label>
+                <input type="number" name="attristock" value="@ViewBag.ainfo.attristock" required class="form-control" min="0" step="1" />
+                <span asp-validation-for="attristock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Upload Image for Attribute (attrimg):</label>
+                <input type="file" name="attrimg" class="form-control-file" />
+                <span asp-validation-for="attrimg" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
