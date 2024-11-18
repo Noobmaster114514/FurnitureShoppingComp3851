@@ -1,0 +1,8 @@
+﻿
+@{
+    ViewBag.Title = "BackIndex";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<h1>Welcome to use Better Furniture online Mall</h1>
+<p>Welcome： User<strong>@(Session["nick"] != null ? Session["nick"].ToString():"")</strong>。Login time：@DateTime.Now</p>

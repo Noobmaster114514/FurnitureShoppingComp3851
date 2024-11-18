@@ -1,0 +1,368 @@
+﻿@model FurnitureShopping.Models.shopping
+@{
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<meta charset="UTF-8">
+
+<link rel="stylesheet" type="text/css" href="/Content/css/iemt.css" />
+<style>
+    .btns {
+        -webkit-transition: all 75ms;
+        -o-transition: all 75ms;
+        transition: all 75ms;
+    }
+
+    .btns {
+        font-weight: bold;
+        text-transform: uppercase;
+        background-repeat: no-repeat;
+        background-position: center center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        outline: none;
+        border-radius: 5px;
+        margin: 20px 10px;
+    }
+
+        .btns:hover {
+            cursor: pointer;
+        }
+
+    .btn-success {
+        color: #fff;
+        background-color: #2ecc71;
+        border-color: #29b765;
+        line-height: 20px;
+    }
+
+    .btn-warning {
+        color: #fff;
+        background-color: #e67e22;
+        border-color: #d67118;
+        line-height: 20px;
+    }
+</style>
+<div class="w1200">
+    <!-- 类别导航 -->
+    <div class="top_nv">
+        <span><a href="/">Home</a></span>
+        <span>></span>
+        <span><a href="/Home/List?cid=@Model.cid">@Model.category.catename</a></span>
+        <span>></span>
+        <span><a href="#">@Model.title</a></span>
+    </div>
+    <!-- 类别导航结束 -->
+    <div class="con_content">
+        <!-- 商品展示区域 -->
+        <div class="con_top">
+            <div class="con_top_l">
+                <div class="tab-w">
+                    <div class="divw">
+                        <a href="#">
+                            <span class="zoomPad">
+                                <img id="productImage" src="@Model.img" alt="Product Image" />
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="con_top_r">
+                <div class="detail_top">
+                    <h1 class="detail_tit">@Model.title</h1>
+                    <div class="price_wrap">
+                        <div class="detail_price">
+                            <span class="price_now" id="newPrice" style="color:red;">
+                                <b class="em_sign">$</b>
+                                @Model.sale_price
+                            </span>
+                            <span class="price_now" style="font-size:14px;">
+                                Original Price: <b class="em_sign">$</b>
+                                <del>@Model.price</del>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="detail_freight">
+                        Stock: <span id="nums">@Model.number</span>
+                    </div>
+                    <div class="detail_freight">
+                        <span class="pop_tit">Shipping: Free</span>
+                    </div>
+                    <div class="detail_freight" id="shopAttr">
+                        Specification:
+                        <button class="btns btn-warning"
+                                data-id="0" data-price="@Model.sale_price" data-attrimg="@Model.img" data-attristock="@Model.number"
+                                onclick="changeAttr(0, @Model.sale_price, '@Model.img', @Model.number)">
+                            Default
+                        </button>
+                        @foreach (var item in ViewBag.attrList)
+                        {
+                            <button class="btns default"
+                                    data-id="@item.id"
+                                    data-price="@item.price"
+                                    data-attrimg="@item.attrimg"
+                                    data-attristock="@item.attristock"
+                                    onclick="changeAttr(@item.id, @item.price, '@item.attrimg', @item.attristock)">
+                                @item.title
+                            </button>
+                        }
+                    </div>
+
+                    <input type="button" id="dec" name="name" class="btns" value="-" />
+                    <input type="number" name="number" id="number" style="width:50px;height:40px;font-size:16px;" value="1" />
+                    <input type="button" id="add" name="name" class="btns" value="+" />
+                    <br />
+                    <input type="button" name="name" id="buyCar" class="btns btn-warning" value="Add to Cart" />
+                    <input type="button" name="name" id="buy" class="btns btn-success" value="Buy Now" />
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 商品展示区域结束 -->
+    <!-- 商品详情与用户评论区域 -->
+    <div class="con_tab">
+        <div class="con_nav">
+            <div class="con_nav_c">
+                <div class="w1200">
+                    <ul id="chocieBox">
+                        <li class="on" onclick="choice(this, 1)"><a href="javascript:;">Product Details</a></li>
+                        <li onclick="choice(this, 2)"><a href="javascript:;">User Reviews</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="display">
+        <div class="goods_box">
+            <div class="detail_lists">
+                <div class="d_h2">
+                    <h2>Product Details</h2>
+                </div>
+                <div class="detail_con">
+                    <div style="margin: auto;">
+                        @(new HtmlString(Model.detail))
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="appraise_box" style="display:none;">
+            <div class="detail_lists">
+                <div class="d_h2">
+                    <h2>User Reviews</h2>
+                </div>
+                <div class="detail_l_con3">
+                    @if (Session["user_id"] != null)
+                    {
+                        <div align="center">
+                            <textarea style="width:90%;height:50px;" id="content" placeholder="Enter your review!"></textarea>
+                            <br />
+                            <input type="button" onclick="sub()" class="btn-success btns" value="Submit Review" />
+                        </div>
+                    }
+                    else
+                    {
+                        <h1 align="center">Login to review</h1>
+                    }
+                    <hr />
+                    <div class="appraise_h2">
+                        <div class="appraise_t1">Review Content</div>
+                        <div class="appraise_t4">User Info</div>
+                    </div>
+                    <ul>
+                        @foreach (var item in ViewBag.list)
+                        {
+                            <li class="appraise_li">
+                                <div class="a_li_t1">
+                                    <div class="appr_cons">@item.detail</div>
+                                    <div class="appr_time">@item.createtime</div>
+                                </div>
+                                <div class="a_li_t4">
+                                    <img src="@item.user.img" alt="User Image"><br><span>@item.user.nickname</span>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 商品详情与用户评论区域结束 -->
+</div>
+</div>
+
+<<!-- JavaScript脚本 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    // 规格切换的功能实现
+    $("#shopAttr button").off("click").on("click", function () {
+        $("#shopAttr button").removeClass("btn-warning").addClass("btn-default");
+        $(this).removeClass("btn-default").addClass("btn-warning");
+
+        let id = $(this).data('id');
+        let price = $(this).data('price');
+        let attrimg = $(this).data('attrimg');
+        let attristock = $(this).data('attristock');
+
+        // 确保数据有效性，设置默认值
+        if (price == null || price == undefined) {
+            price = @Model.sale_price; // 使用默认的销售价格
+        }
+        if (attrimg == null || attrimg == undefined) {
+            attrimg = "@Model.img"; // 使用默认的商品图片
+        }
+        if (attristock == null || attristock == undefined) {
+            attristock = @Model.number; // 使用默认的库存
+        }
+
+        changeAttr(id, price, attrimg, attristock);
+    });
+
+    var aid = 0; // 当前规格ID
+    function changeAttr(id, price, attrimg = null, attristock = null) {
+        $("#newPrice").html('<b class="em_sign">$</b>' + price);
+        aid = id;
+        if (typeof attristock !== 'undefined' && attristock !== null) {
+            $("#nums").text(attristock);
+        } else {
+            console.error('Stock information is not available for this attribute.');
+        }
+        if (attrimg && attrimg !== "null") {
+            $("#productImage").attr("src", attrimg);
+        }
+    }
+
+    // 购买按钮点击事件
+    $("#buy").click(function () {
+        var isLogin = "@(Session["user_id"] != null ? Session["user_id"].ToString() : "0")";
+        if (isLogin == "0") {
+            alert("Please login first!");
+            window.location.href = "/Home/Login";
+            return;
+        }
+
+        var num = parseInt($("#number").val());
+        var nums = parseInt($("#nums").text());
+        var price = parseFloat($("#newPrice").text().replace('$', '').trim());
+
+        if (isNaN(price)) {
+            alert("Invalid product price!");
+            return;
+        }
+
+        if (nums <= 0) {
+            alert("Sorry, this item is out of stock!");
+            return;
+        }
+
+        if (num > nums) {
+            alert("The quantity exceeds available stock!");
+            return;
+        }
+
+        // 跳转到支付页面时传递价格、数量和规格信息
+        window.location.href = "/Home/Pay2?shopId=" + @Model.id + "&shopNum=" + num + "&aid=" + aid + "&price=" + price + "&img=" + encodeURIComponent($("#productImage").attr("src"));
+    });
+
+    // 添加到购物车点击事件
+    $("#buyCar").click(function () {
+        var isLogin = "@(Session["user_id"] != null ? Session["user_id"].ToString() : "0")";
+        if (isLogin == "0") {
+            alert("Please login first!");
+            window.location.href = "/Home/Login";
+            return;
+        }
+
+        var nums = parseInt($("#nums").text());
+        var shopNum = parseInt($("#number").val());
+
+        if (nums <= 0) {
+            alert("Sorry, this item is out of stock!");
+            return;
+        }
+
+        $.ajax({
+            url: "/Home/addCar",
+            type: "post",
+            data: {
+                shopId: "@Model.id",
+                shopNum: shopNum,
+                aid: aid
+            },
+            success: function (res) {
+                if (res.status === "success") {
+                    alert("Added to cart successfully!");
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function () {
+                alert("Request failed, could not add to cart!");
+            }
+        });
+    });
+
+    // 评论提交功能
+    function sub() {
+        var content = $("#content").val();
+        if (content.trim().length < 1) {
+            alert("Please enter review content!");
+            return;
+        }
+        $.ajax({
+            url: "/Home/AddComment",
+            type: "post",
+            data: {
+                detail: content,
+                shop_id: @Model.id
+            },
+            success: function (res) {
+                if (res == "200") {
+                    alert("Review submitted successfully!");
+                    window.location.reload();
+                } else {
+                    alert("Failed to submit review!");
+                }
+            },
+            error: function () {
+                alert("Request failed, could not submit review!");
+            }
+        });
+    }
+
+    // 商品数量加减功能
+    $("#dec").click(function () {
+        var num = parseInt($("#number").val());
+        if (num == 1) {
+            alert("This is the minimum quantity, cannot decrease further!");
+            return;
+        }
+        num = num - 1;
+        $("#number").val(num);
+    });
+
+    $("#add").click(function () {
+        var nums = parseInt($("#nums").text());
+        var num = parseInt($("#number").val());
+        if (num >= nums) {
+            alert("This is the maximum quantity available, cannot increase further!");
+            return;
+        }
+        num = num + 1;
+        $("#number").val(num);
+    });
+
+    $("#number").blur(function () {
+        var num = parseInt($("#number").val());
+        var nums = parseInt($("#nums").text());
+
+        if (isNaN(num) || num < 1) {
+            alert("Invalid quantity, minimum is 1!");
+            $("#number").val(1);
+            return;
+        }
+        if (num > nums) {
+            alert("Quantity exceeds available stock!");
+            $("#number").val(nums);
+        }
+    });
+</script>
