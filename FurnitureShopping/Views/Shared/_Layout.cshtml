@@ -15,7 +15,7 @@
         <nav class="cm-navbar cm-navbar-primary">
             <div class="cm-flex">
                 @* Change LOGO to text *@
-                <h1><a href="/" style="color:#fff;">Mall</a> </h1>
+                <h1><a href="/" style="color:#fff;">Furniture Mall</a> </h1>
             </div>
             <div class="btn btn-primary md-menu-white" data-toggle="cm-menu"></div>
         </nav>
@@ -24,24 +24,24 @@
                 <div id="cm-menu-scroller">
                     @* Left side menu area *@
                     <ul class="cm-menu-items">
-                        <li><a href="/User/Index" class="sf-dashboard">User Management</a></li>
-                        <li><a href="/Comment/Index" class="sf-brick">Comment Management</a></li>
+                        <li><a href="/User/Index" class="sf-profile-group">User Management</a></li>
+                        
                         <li class="cm-submenu">
-                            <a class="sf-window-layout">Product Category Management<span class="caret"></span></a>
+                            <a class="sf-tag">Product Category Management<span class="caret"></span></a>
                             <ul>
                                 <li><a href="/Category/Create">Add Product Category</a></li>
                                 <li><a href="/Category/Index">Manage Product Categories</a></li>
                             </ul>
                         </li>
                         <li class="cm-submenu">
-                            <a class="sf-cat">Product Management <span class="caret"></span></a>
+                            <a class="sf-shop">Product Management <span class="caret"></span></a>
                             <ul>
                                 <li><a href="/Shopping/Create">Add Product</a></li>
                                 <li><a href="/Shopping/Index">Manage Products</a></li>
                             </ul>
                         </li>
-                        <li><a href="/Admins/Index" class="sf-notepad">Admin Management</a></li>
-                        <li><a href="/Order/Index" class="sf-lock-open">Order Management</a></li>
+                        <li><a href="/Admins/Index" class="sf-key">Admin Management</a></li>
+                        <li><a href="/Order/Index" class="sf-notepad">Order Management</a></li>
                     </ul>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="/Admins/updatePwd?id=@(Session["id"] != null ? Session["id"].ToString():"")"><i class="fa fa-fw fa-user"></i>Change Password</a>
+                        <a href="/Admins/updatePwd?id=@(Session["id"] != null ? Session["id"].ToString():"")"><i class="fa fa-fw fa-user"></i>Edit Personal Info</a>
                     </li>
                     <li>
                         <a href="/Login/Logout"><i class="fa fa-fw fa-sign-out"></i>Logout</a>

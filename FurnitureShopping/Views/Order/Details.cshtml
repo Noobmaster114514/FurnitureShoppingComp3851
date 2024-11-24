@@ -46,7 +46,7 @@
         </dd>
 
         <dt>
-            Has the order been paid for:
+            Payment Status:
         </dt>
 
         <dd>
@@ -123,20 +123,11 @@
                     var info = db.product_attribute.FirstOrDefault(p => p.id == item.aid);
                     string imgUrl = info != null && !string.IsNullOrEmpty(info.attrimg) ? info.attrimg : item.shopping.img;
                 }
-                <img src="@imgUrl" width="50" height="50" alt="Alternate Text" />
+                <img src="@imgUrl" width="200" height="200" alt="Failed to load image" />
             </th>
             <th>
                 @item.title
-                @{
-                    if (info != null)
-                    {
-                        <b style="color:red">(@info.title)</b>
-                    }
-                    else
-                    {
-                        <b style="color:red">(default)</b>
-                    }
-                }
+                
             </th>
 
             <th>

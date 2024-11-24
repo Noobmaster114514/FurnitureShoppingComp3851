@@ -1,4 +1,6 @@
-﻿@model IEnumerable<FurnitureShopping.Models.order>
+﻿
+
+@model IEnumerable<FurnitureShopping.Models.order>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
@@ -14,10 +16,9 @@
         <th>Image</th>
         <th>Remarks</th>
         <th>Order Time</th>
-
         <th>Ordered By</th>
         <th>Details</th>
-
+        <th>Actions</th> <!-- New column for actions -->
     </tr>
 
     @foreach (var item in Model)
@@ -34,11 +35,10 @@
                                     .FirstOrDefault() ?? firstDetail.shopping.img
                                     : "defaultImagePath"; // Add a default image path if no details are present
                 }
-                <img src="@imgUrl" width="200" height="150" alt="Alternate Text" />
+                <img src="@imgUrl" width="200" height="150" alt="Failed to load image" />
             </td>
             <td>@Html.DisplayFor(modelItem => item.mark)</td>
             <td>@Html.DisplayFor(modelItem => item.createtime)</td>
-
             <td>@Html.DisplayFor(modelItem => item.user.username)</td>
             <td>
                 <!-- Order Details Display -->
@@ -58,7 +58,6 @@
 
                         <tr>
                             <td>@Html.DisplayFor(detailItem => detail.title)</td>
-
                             <td>@Html.DisplayFor(detailItem => detail.count)</td>
                             <td>@price</td>
                             <td>@totalPrice</td>
@@ -67,7 +66,9 @@
                 </table>
             </td>
             <td>
+                <!-- Actions -->
                 <a href="/Order/Details2?id=@item.id" class="btn btn-success">View Order</a>
+                
             </td>
         </tr>
     }

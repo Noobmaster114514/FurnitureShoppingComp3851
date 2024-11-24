@@ -11,6 +11,8 @@
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <!-- Product Name -->
         <div class="form-group">
             @Html.LabelFor(model => model.title, "Product Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -19,6 +21,7 @@
             </div>
         </div>
 
+        <!-- Product Category -->
         <div class="form-group">
             @Html.LabelFor(model => model.cid, "Product Category", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -27,6 +30,7 @@
             </div>
         </div>
 
+        <!-- Original Price -->
         <div class="form-group">
             @Html.LabelFor(model => model.price, "Original Price", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -35,6 +39,7 @@
             </div>
         </div>
 
+        <!-- Sale Price -->
         <div class="form-group">
             @Html.LabelFor(model => model.sale_price, "Sale Price", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -42,6 +47,8 @@
                 @Html.ValidationMessageFor(model => model.sale_price, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <!-- Format price inputs -->
         <script src="~/Scripts/jquery-3.4.1.min.js"></script>
         <script>
             $(document).ready(function () {
@@ -54,15 +61,16 @@
             });
         </script>
 
-
+        <!-- Stock -->
         <div class="form-group">
-            @Html.LabelFor(model => model.number, "Stock", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.number, "Available Stock", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.number, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.number, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <!-- Product Details -->
         <div class="form-group">
             @Html.LabelFor(model => model.detail, "Product Details", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -77,23 +85,26 @@
                 <!-- Initialize editor -->
                 <script type="text/javascript">
                     var ue = UE.getEditor('content', {
-                        // Default editor height
                         initialFrameHeight: 400
                     });
                 </script>
+                <!-- Cannot be empty prompt -->
+                <span class="text-danger" id="detailError" style="display:none;">Cannot be empty</span>
             </div>
         </div>
 
+        <!-- Product Cover -->
         <div class="form-group">
             @Html.LabelFor(model => model.img, "Product Cover", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @* Cover image upload *@
+                <!-- Cover image upload -->
                 <input class="width-main input" type="file" datatype="*" id="pic" name="pic" value="" accept="image/*" onchange="upload(event)">
                 <input type="hidden" name="img" id="img" value="" />
                 <div id="showImg"></div>
             </div>
         </div>
 
+        <!-- Product Number -->
         <div class="form-group">
             @Html.LabelFor(model => model.shop_number, "Product Number", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -102,6 +113,7 @@
             </div>
         </div>
 
+        <!-- Submit Button -->
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Add" class="btn btn-default" />
@@ -113,10 +125,12 @@
 <div align="center" class="row">
     @Html.ActionLink("Back to Product List", "Index")
 </div>
-@* jQuery plugin for async upload *@
+
+<!-- jQuery plugin for async upload -->
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<!-- Implement async upload -->
 <script>
-    // Implement async upload
     function upload(event) {
         var imgPath = $("#pic").val();
         console.log(imgPath);
@@ -129,8 +143,7 @@
         }
         // Implement file upload
         if (event.target.files[0].type.search('image') !== -1) {
-            // Upload image file
-            var formData = new FormData($("#myForm")[0]); // Create file stream object
+            var formData = new FormData($("#myForm")[0]);
             $.ajax({
                 url: "/Upload/file",
                 type: "post",
@@ -152,9 +165,8 @@
                         alert("Image upload failed!");
                         return;
                     }
-                    $("#showImg").html("<img src='" + res + "' width='50' height='50' /><p style='color:red;'>Upload successful!</p>");
-                    // Set uploaded image address
-                    var res = res.trim(); // Remove leading and trailing whitespace
+                    $("#showImg").html("<img src='" + res + "' width='100' height='100' /><p style='color:red;'>Upload successful!</p>");
+                    var res = res.trim();
                     $("#img").val(res);
                 },
                 error: function (res) {
@@ -165,4 +177,69 @@
             alert('Only image files are supported');
         }
     }
+</script>
+
+<!-- Add pre-submit validation logic -->
+<script>
+    $(document).ready(function () {
+        $('#myForm').submit(function (event) {
+            var valid = true;
+
+            var productName = $("input[name='title']").val().trim();
+            var detail = ue.getContent().trim();
+            var originalPrice = $("input[name='price']").val().trim();
+            var salePrice = $("input[name='sale_price']").val().trim();
+            var stock = $("input[name='number']").val().trim();
+            var img = $("input[name='img']").val().trim();
+            var productNumber = $("input[name='shop_number']").val().trim();
+
+            // If product name is empty, set it to 'product name'
+            if (productName === '') {
+                $("input[name='title']").val('product name');
+            }
+
+            // If detail is empty, set content to a space and show error
+            if (detail === '') {
+                ue.setContent(' ');
+                valid = false;
+                $("#detailError").show();
+            } else {
+                $("#detailError").hide();
+            }
+
+            // If sale price is empty, prevent submission and alert
+            if (salePrice === '') {
+                valid = false;
+                alert('Please enter the price');
+            }
+
+            // If original price is empty, set it to sale price
+            if (originalPrice === '') {
+                if (salePrice !== '') {
+                    $("input[name='price']").val(salePrice);
+                }
+            }
+
+            // If stock is empty, prevent submission and alert
+            if (stock === '') {
+                valid = false;
+                alert('Please enter the stock');
+            }
+
+            // If image is empty, prevent submission and alert
+            if (img === '') {
+                valid = false;
+                alert('Please upload an image');
+            }
+
+            // If product number is empty, set it to 'none'
+            if (productNumber === '') {
+                $("input[name='shop_number']").val('none');
+            }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    });
 </script>

@@ -2,35 +2,36 @@
 @{
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
-<!-- Carousel Area -->
+<!-- 轮播区域 -->
+<!-- 轮播区域 -->
 <div class="full_big_eye">
-    <!-- Carousel -->
+    <!-- 轮播图 -->
     <div class="full_eye">
         <div id="inBaner">
             <ul class="big_eye_pic">
                 <li style="display: block;">
                     <a href="" class="img_box">
-                        <img src="/Content/image/web-101-101-1.png" style="width: 1920px;height: 800px" />
+                        <img src="/Content/image/index2.jpg" alt="图片1" />
                     </a>
                 </li>
                 <li>
-                    <a href="" class="tpl">
-                        <img src="/Content/image/index5.jpg" style="width: 1920px;height: 800px" />
+                    <a href="" class="img_box">
+                        <img src="/Content/image/index5.jpg" alt="图片2" />
                     </a>
                 </li>
                 <li>
-                    <a href="" class="tpl">
-                        <img src="/Content/image/index2.jpg" style="width: 1920px;height: 800px" />
+                    <a href="" class="img_box">
+                        <img src="/Content/image/index2.jpg" alt="图片3" />
                     </a>
                 </li>
                 <li>
-                    <a href="" class="tpl">
-                        <img src="/Content/image/index3.jpg" style="width: 1920px;height: 800px" />
+                    <a href="" class="img_box">
+                        <img src="/Content/image/index3.jpg" alt="图片4" />
                     </a>
                 </li>
                 <li>
-                    <a href="" class="tpl">
-                        <img src="/Content/image/index4.jpg" style="width: 1920px;height: 800px" />
+                    <a href="" class="img_box">
+                        <img src="/Content/image/index4.jpg" alt="图片5" />
                     </a>
                 </li>
             </ul>
@@ -45,18 +46,18 @@
             </div>
         </div>
     </div>
-    <!-- Carousel -->
+    <!-- 轮播图结束 -->
 </div>
+
 <!-- Carousel Area -->
 <!-- Product Area -->
 <div class="w1200">
-    <div class="v_h2">
-        Looking for a piece of furniture in Singapore for a new place, office, business? Then you came to the right site. We provide top quality furniture at a reasonable price.
-    </div>
-
     <!-- Fourth Area -->
     <div class="day_box">
         <div class="qinha_title">
+            <div class="v_h2">
+                Looking for a piece of furniture in Singapore for a new place, office, business? Then you came to the right site. We provide top quality furniture at a reasonable price.
+            </div>
         </div>
         <ul class="day_goods">
             @* Loop through products, excluding "default" products *@
@@ -72,7 +73,10 @@
 
                     <p class="p_p">
                         <span class="price1">$<span>@item.sale_price</span></span>
-                        <span class="price2"><del>$@item.price</del></span>
+                        @if (item.price != item.sale_price)
+                        {
+                            <span class="price2"><del>$@item.price</del></span>
+                        }
                     </p>
                 </li>
             }

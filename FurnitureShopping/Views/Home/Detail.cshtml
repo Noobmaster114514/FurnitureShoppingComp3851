@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="detail_freight">
-                        Stock: <span id="nums">@Model.number</span>
+                        Available Stock: <span id="nums">@Model.number</span>
                     </div>
                     <div class="detail_freight">
                         <span class="pop_tit">Shipping: Free</span>
@@ -126,7 +126,7 @@
                 <div class="w1200">
                     <ul id="chocieBox">
                         <li class="on" onclick="choice(this, 1)"><a href="javascript:;">Product Details</a></li>
-                        <li onclick="choice(this, 2)"><a href="javascript:;">User Reviews</a></li>
+                        
                     </ul>
                 </div>
             </div>
@@ -145,50 +145,11 @@
                 </div>
             </div>
         </div>
-        <div class="appraise_box" style="display:none;">
-            <div class="detail_lists">
-                <div class="d_h2">
-                    <h2>User Reviews</h2>
-                </div>
-                <div class="detail_l_con3">
-                    @if (Session["user_id"] != null)
-                    {
-                        <div align="center">
-                            <textarea style="width:90%;height:50px;" id="content" placeholder="Enter your review!"></textarea>
-                            <br />
-                            <input type="button" onclick="sub()" class="btn-success btns" value="Submit Review" />
-                        </div>
-                    }
-                    else
-                    {
-                        <h1 align="center">Login to review</h1>
-                    }
-                    <hr />
-                    <div class="appraise_h2">
-                        <div class="appraise_t1">Review Content</div>
-                        <div class="appraise_t4">User Info</div>
-                    </div>
-                    <ul>
-                        @foreach (var item in ViewBag.list)
-                        {
-                            <li class="appraise_li">
-                                <div class="a_li_t1">
-                                    <div class="appr_cons">@item.detail</div>
-                                    <div class="appr_time">@item.createtime</div>
-                                </div>
-                                <div class="a_li_t4">
-                                    <img src="@item.user.img" alt="User Image"><br><span>@item.user.nickname</span>
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
+        
     </div>
     <!-- 商品详情与用户评论区域结束 -->
 </div>
-</div>
+
 
 <<!-- JavaScript脚本 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -264,42 +225,57 @@
     });
 
     // 添加到购物车点击事件
-    $("#buyCar").click(function () {
-        var isLogin = "@(Session["user_id"] != null ? Session["user_id"].ToString() : "0")";
-        if (isLogin == "0") {
-            alert("Please login first!");
-            window.location.href = "/Home/Login";
-            return;
-        }
+$("#buyCar").click(function () {
+    var isLogin = "@(Session["user_id"] != null ? Session["user_id"].ToString() : "0")";
+    if (isLogin == "0") {
+        alert("Please login first!");
+        window.location.href = "/Home/Login";
+        return;
+    }
 
-        var nums = parseInt($("#nums").text());
-        var shopNum = parseInt($("#number").val());
+    var shopNum = parseInt($("#number").val());
+    var nums = parseInt($("#nums").text());
+    var price = parseFloat($("#newPrice").text().replace('$', '').trim());
 
-        if (nums <= 0) {
-            alert("Sorry, this item is out of stock!");
-            return;
-        }
+    if (isNaN(price)) {
+        alert("Invalid product price!");
+        return;
+    }
 
-        $.ajax({
-            url: "/Home/addCar",
-            type: "post",
-            data: {
-                shopId: "@Model.id",
-                shopNum: shopNum,
-                aid: aid
-            },
-            success: function (res) {
-                if (res.status === "success") {
-                    alert("Added to cart successfully!");
-                } else {
-                    alert(res.message);
-                }
-            },
-            error: function () {
-                alert("Request failed, could not add to cart!");
+    if (nums <= 0) {
+        alert("Sorry, this item is out of stock!");
+        return;
+    }
+
+    if (shopNum > nums) {
+        alert("The quantity exceeds available stock!");
+        return;
+    }
+
+    // 发送 AJAX 请求将商品添加到购物车，同时传递价格、数量和规格信息
+    $.ajax({
+        url: "/Home/addCar",
+        type: "post",
+        data: {
+            shopId: "@Model.id",
+            shopNum: shopNum,
+            aid: aid,  // 当前选择的规格 ID
+            price: price, // 当前价格
+            img: $("#productImage").attr("src") // 当前图片
+        },
+        success: function (res) {
+            if (res.status === "success") {
+                alert("Added to cart successfully!");
+            } else {
+                alert(res.message);
             }
-        });
+        },
+        error: function () {
+            alert("Request failed, could not add to cart!");
+        }
     });
+});
+
 
     // 评论提交功能
     function sub() {

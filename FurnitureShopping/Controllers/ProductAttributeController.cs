@@ -94,9 +94,12 @@ namespace FurnitureShopping.Controllers
                 return HttpNotFound();
             }
 
+            // 使用 ViewBag 传递 productAttribute 数据，包括 attristock
             ViewBag.ainfo = productAttribute;
+
             return View(shoppingItem);
         }
+
 
         // 保存编辑
         [HttpPost]
@@ -105,9 +108,22 @@ namespace FurnitureShopping.Controllers
         {
             if (ModelState.IsValid)
             {
-                // 处理上传的图片文件
-                if (attrimg != null && attrimg.ContentLength > 0)
+                // 保留原始的 attrimg 如果用户没有上传新的图片
+                var originalProductAttribute = db.product_attribute.AsNoTracking().FirstOrDefault(pa => pa.id == id);
+
+                if (originalProductAttribute == null)
                 {
+                    return HttpNotFound();
+                }
+
+                // 如果用户没有上传新的图片，保持原始图片路径
+                if (attrimg == null || attrimg.ContentLength == 0)
+                {
+                    product_attribute.attrimg = originalProductAttribute.attrimg;
+                }
+                else
+                {
+                    // 处理上传的图片文件
                     string fileSavePath;
                     string error = SaveUploadedFile(attrimg, out fileSavePath);
 
@@ -118,9 +134,9 @@ namespace FurnitureShopping.Controllers
                     }
 
                     // 更新数据库中的图片路径
-                    if (!string.IsNullOrEmpty(product_attribute.attrimg))
+                    if (!string.IsNullOrEmpty(originalProductAttribute.attrimg))
                     {
-                        DeleteFile(product_attribute.attrimg); // 删除旧文件
+                        DeleteFile(originalProductAttribute.attrimg); // 删除旧文件
                     }
                     product_attribute.attrimg = fileSavePath;
                 }
@@ -131,6 +147,8 @@ namespace FurnitureShopping.Controllers
             }
             return View(product_attribute);
         }
+
+
 
         // 删除商品属性
         public async Task<ActionResult> Delete(int id)

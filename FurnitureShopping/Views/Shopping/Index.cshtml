@@ -37,7 +37,7 @@
             Price
         </th>
         <th>
-            Stock
+            Available Stock
         </th>
         <th>
             Cover Image
@@ -73,11 +73,11 @@
             <td>
                 @if (string.IsNullOrEmpty(item.img)) // Display default image if none provided
                 {
-                    <img src="~/Content/pic/0411171619.png" width="100" height="100" alt="Alternate Text" />
+                    <img src="~/Content/pic/0411171619.png" width="100" height="100" alt="Failed to load image" />
                 }
                 else
                 {
-                    <img src="@item.img" width="100" height="100" alt="Alternate Text" />
+                    <img src="@item.img" width="100" height="100" alt="Failed to load image" />
                 }
             </td>
             <td>

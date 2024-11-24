@@ -57,21 +57,26 @@ ul li{
     color: #8c8c8c;
 }
 .line {
-    background: #dfdfdf none repeat scroll 0 0;
+    background-color: #dfdfdf;
     height: 14px;
-    overflow: hidden;
-    padding: 0;
     width: 1px;
     display: inline-block;
     vertical-align: middle;
 }
-.a_login {
-    padding: 0 10px 0 20px;
+
+a.a_login,
+a.a_reg {
+    color: #333; /* 设置默认文字颜色 */
+    text-decoration: none;
+    padding: 0 10px 0 20px; /* 根据需要调整 */
 }
 
-.a_reg {
-    padding-left: 8px;
-}
+    a.a_login:hover,
+    a.a_reg:hover {
+        color: black;
+        text-decoration: underline;
+    }
+
 .h_t_r{
 	float: right;
 }

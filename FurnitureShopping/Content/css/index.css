@@ -15,107 +15,74 @@ a:link{
 ul li{
 	list-style: none;
 }
-/**
- * 分类
- */
 .full_big_eye {
-    width: 100%;
-    height: 800px;
+    width: 1200px;
+    height: 500px;
+    margin: 0 auto;
     position: relative;
 }
-.index_type {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin-left: -600px;
-    width: 215px;
-    height: 380px;
-    background-color: #007bff;
-    z-index: 4;
-}
-.index_type_ul {
-    width: 100%;
-}
-.index_type_ul li {
-    padding-left: 15px;
-    height: 31.6px;
-    line-height: 31.6px;
-    color: #fff;
-    position: relative;
-}
-.index_type li span{
-    
-    font-size: 14px;
-    text-decoration: none;
-}
-.index_type li span b{
-	font-family: simsun;
-	text-align: center;
-	float: right;
-	margin-right: 10px;
-}
-.index_type li:hover{
-	color: #007bff;
-	background: #F7F7F7;
-}
-.index_type li:hover b{
-	color: #F7F7F7;
-}
-.index_type li:hover .nav_type_list{
-	display: block;
-}
-/**
- * 轮播图
- */
+
 .full_eye {
     width: 100%;
-    height: 800px;
+    height: 500px;
     overflow: hidden;
     position: relative;
 }
-.big_eye_pic{
-	height: 800px;
+
+.big_eye_pic {
+    height: 500px;
     z-index: 1;
     overflow: hidden;
-}
-.big_eye_pic ul li {
-	position: absolute;
-}
-.big_eye_pic .img_box{
-	display: block;
-    width: 1920px;
-    height: 800px;
-    margin: auto;
     position: relative;
+    padding-bottom: 20px; /* 如果需要，可以添加底部内边距 */
 }
-.big_eye_pic .img_box img{
-    position: relative;
-    left: -275px;
+
+    .big_eye_pic li {
+        position: absolute;
+        width: 100%;
+    }
+
+    .big_eye_pic .img_box {
+        width: 1200px;
+        height: 500px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+        .big_eye_pic .img_box img {
+            width: 1200px;
+            height: 500px;
+            display: block;
+            margin: 0 auto;
+        }
+
+.btn {
+    width: 100%;
+    height: 15px;
+    line-height: 15px;
+    position: absolute;
+    bottom: 10px; /* 调整为图片的下边缘 */
+    text-align: center;
+    z-index: 4;
 }
-.btn{
-	width: 100%;
-	height: 15px;
-	line-height: 15px;
-	position: absolute;
-	bottom: 20px;
-	text-align: center;
-	z-index: 4;
-}
-.btn ul{
-	display: inline-block;
-}
-.btn ul li{
-	width: 15px;
-	height: 15px;
-	float: left;
-	background: #B9B8BB;
-	border-radius:50%;
-	margin: 0 5px;
-}
+
+    .btn ul {
+        display: inline-block;
+    }
+
+        .btn ul li {
+            width: 15px;
+            height: 15px;
+            float: left;
+            background: #B9B8BB;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+
     .btn .cur {
         background: #00f;
     }
-/*轮播区结束*/
+
 /*shop区*/
 .her_top{
 	margin-top: 50px;

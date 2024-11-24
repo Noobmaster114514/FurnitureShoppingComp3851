@@ -73,22 +73,24 @@
             <div class="w1200">
                 <div class="h_t_l">
                     <div class="login_l">
-                        <span>Welcome to  Furnituire Mall!</span>
+                        <span style="color: #333;">Welcome to Furnituire Mall!</span>
+
                         @if (Session["nick"] != null)
                         {
-                            <span>
+                            <span style="color: #333;">
                                 User:
-                                <img src="@Session["img"]" width="35" height="35" style="vertical-align:middle;border-radius:50%;" alt="Alternate Text" />
+                                <img src="@Session["img"]" width="35" height="35" style="vertical-align:middle;border-radius:50%;" alt="Failed to load image" />
                                 @Session["nick"]
                             </span>
                             <a class="a_login" href="/Home/Logout">Logout</a>
+                            <span class="line"></span>
                             <a class="a_login" href="/Home/BackIndex">Personal Center</a>
                         }
                         else
                         {
-                            <a class="a_login" href="/Home/Login">[Login]</a>
+                            <a class="a_login" href="/Home/Login">[User Login]</a>
                             <span class="line"></span>
-                            <a class="" href="/Home/Register">[Register]</a>
+                            <a class="a_login" href="/Home/Register">[Register]</a>
                         }
 
                     </div>
@@ -97,11 +99,11 @@
                     <ul>
                         <li>
                             <i class="tel_icon"></i>
-                            <a href="">114-514-1919</a>
+                            <a class="a_login" href="">114-514-1919</a>
                             <span class="line"></span>
                         </li>
                         <li>
-                            <a href="/Login/Index">Login to Mall Backend</a>
+                            <a class="a_login" href="/Login/Index">Admin Login</a>
                             <span class="line"></span>
                         </li>
                         <li>
@@ -115,12 +117,13 @@
         <div class="full_sc">
             <div class="w1200 header_conter">
                 <div class="h_c_logo">
-                    <a href="A-index.html">
+                    <a href="/Home/Index">
                         <img src="/Content/image/logo.png" style="width: 103px;height: 103px" />
                     </a>
                 </div>
                 <div class="h_c_bz">
-                    <img src="/Content/image/top_center.png" style="width: 311px;height: 103px" />
+                    <a href="/Home/Index">
+                        <img src="/Content/image/top_center.png" style="width: 311px;height: 103px" />
                 </div>
                 <div class="h_c_search">
                     <div class="search_input">
@@ -132,13 +135,13 @@
                     <div class="search_key">
                         <ul>
                             <li>
-                                <a href="/Home/List?keyword=home">Home</a>
+                                <a href="/Home/List?keyword=desk">Desk</a>
                             </li>
                             <li>
-                                <a href="/Home/List?keyword=industrial">Industrial</a>
+                                <a href="/Home/List?keyword=sofa">Sofa</a>
                             </li>
                             <li>
-                                <a href="/Home/List?keyword=commercial">Commercial</a>
+                                <a href="/Home/List?keyword=bed">Bed Frames</a>
                             </li>
                         </ul>
                     </div>
@@ -166,7 +169,7 @@
                         <a href="/Home/List?keyword=chair">Chair</a>
                     </li>
                     <li>
-                        <a href="/Home/List?keyword=combo">Combo Set</a>
+                        <a href="/Home/List?keyword=set">Combo Set</a>
                     </li>
                 </ul>
             </div>
@@ -181,7 +184,7 @@
         <div class="footer_links">
             <ul>
                 <li>
-                    <a href="/Login/Index">Login to Mall Backend</a>
+                    <a href="/Login/Index">Admin Login</a>
                     <span class="line"></span>
                 </li>
             </ul>

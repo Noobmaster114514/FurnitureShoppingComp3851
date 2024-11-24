@@ -22,7 +22,7 @@ namespace FurnitureShopping.Controllers
             return View(db.admin.Where(p => p.nickname.Contains(keyword)).ToList());
         }
 
-       //添加管理员
+        // 添加管理员
         public ActionResult Create()
         {
             return View();
@@ -33,8 +33,14 @@ namespace FurnitureShopping.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,username,pwd,nickname,power,createtime")] admin admin)
         {
+            if (db.admin.Any(a => a.username == admin.username))
+            {
+                ModelState.AddModelError("username", "Username already exists.");
+            }
+
             if (ModelState.IsValid)
             {
+                admin.createtime = DateTime.Now;  // 自动生成创建时间
                 db.admin.Add(admin);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -58,6 +64,47 @@ namespace FurnitureShopping.Controllers
             return View(admin);
         }
 
+        // 保存编辑
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "id,username,pwd,nickname,power")] admin admin)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingAdmin = db.admin.Find(admin.id);
+                if (existingAdmin != null)
+                {
+                    // 保留原来的创建时间
+                    admin.createtime = existingAdmin.createtime;
+
+                    // 如果 nickname 是 "superadmin"，保留它
+                    if (existingAdmin.nickname == "superadmin")
+                    {
+                        admin.nickname = existingAdmin.nickname;
+                    }
+
+                    // 使用 SetValues 更新除 createtime 以外的字段
+                    db.Entry(existingAdmin).CurrentValues.SetValues(admin);
+                    db.SaveChanges();
+
+                    return Content("<script>alert('Modification Succeed！');window.history.back(-1);</script>");
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
+
+            // 打印错误信息以调试
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                System.Diagnostics.Debug.WriteLine("Model Error: " + error.ErrorMessage);
+            }
+
+            return View(admin);
+        }
+
         // 修改管理员自己的密码
         public ActionResult updatePwd(int? id)
         {
@@ -73,24 +120,20 @@ namespace FurnitureShopping.Controllers
             return View(admin);
         }
 
-        // 保存编辑
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,username,pwd,nickname,power,createtime")] admin admin)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(admin).State = EntityState.Modified;
-                db.SaveChanges();
-                return Content("<script>alert('Modification Succeed！');window.history.back(-1);</script>");
-            }
-            return View(admin);
-        }
-
-        //删除管理员
+        // 删除管理员
         public ActionResult Delete(int id)
         {
             admin admin = db.admin.Find(id);
+            if (admin == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (admin.nickname == "superadmin")
+            {
+                return Content("<script>alert('Cannot delete superadmin account.');window.history.back(-1);</script>");
+            }
+
             db.admin.Remove(admin);
             db.SaveChanges();
             return RedirectToAction("Index");

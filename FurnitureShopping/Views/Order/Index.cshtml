@@ -29,7 +29,7 @@
                                     .FirstOrDefault() ?? firstDetail.shopping.img
                                     : "defaultImagePath"; // Add a default image path if no details are present
                 }
-                <img src="@imgUrl" width="200" height="150" alt="Alternate Text" />
+                <img src="@imgUrl" width="200" height="150" alt="Failed to load image" />
             </td>
             <td>@Html.DisplayFor(modelItem => item.mark)</td>
             <td>@Html.DisplayFor(modelItem => item.createtime)</td>
