@@ -46,11 +46,6 @@ Explore the platform live at [Microsoft Azure Web App](https://furnitureshopping
 
 ---
 
-
-
-## Live Demo
-Explore the platform live at [Microsoft Azure Web App](https://furnitureshoppingcomp3851.azurewebsites.net).
-
 ## Accounts
 - **Admin Account:**
   - Username: `admin`
