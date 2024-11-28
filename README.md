@@ -46,9 +46,17 @@ Explore the platform live at [Microsoft Azure Web App](https://furnitureshopping
 
 ---
 
-## Installation
-To set up the project locally, follow these steps:
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Noobmaster114514/FurnitureShoppingComp3851.git
+
+## Live Demo
+Explore the platform live at [Microsoft Azure Web App](https://furnitureshoppingcomp3851.azurewebsites.net).
+
+## Accounts
+- **Admin Account:**
+  - Username: `admin`
+  - Password: `admin`
+
+- **User Account:**
+  - Username: `user`
+  - Password: `user`
+
